@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أفق | OFOQ Fragrance Boutique - دار العطور الفاخرة (مصر)</title>
+  <meta name="description" content="دار أفق للعطور الفاخرة في مصر - أرقى العطور النيش ودهن العود المعتق والخلطات الملكية الخاصة مع خدمة الدفع عند الاستلام والشحن السريع لجميع محافظات جمهورية مصر العربية." />
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Supabase JS SDK (Official CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Announcement Bar (Continuous Ticker) -->
+  <div class="announcement-bar" role="region" aria-label="شريط الإعلانات">
+    <div class="announcement-marquee">
+      <div class="announcement-group">
+        <span class="announcement-item"><i class="fa-solid fa-crown"></i> دار أفق للعطور الفاخرة • عطور أصلية ومضمونة 100%</span>
+        <span class="announcement-item"><i class="fa-solid fa-truck-fast"></i> شحن سريع ومجاني للطلبات فوق 1,000 ج.م لكافة محافظات مصر</span>
+        <span class="announcement-item"><i class="fa-solid fa-hand-holding-dollar"></i> الدفع عند الاستلام (COD) مع حق معاينة الطرد قبل الدفع</span>
+        <span class="announcement-item"><i class="fa-solid fa-wallet"></i> متاح الدفع عبر فودافون كاش وإنستاباي (InstaPay)</span>
+      </div>
+      <div class="announcement-group" aria-hidden="true">
+        <span class="announcement-item"><i class="fa-solid fa-crown"></i> دار أفق للعطور الفاخرة • عطور أصلية ومضمونة 100%</span>
+        <span class="announcement-item"><i class="fa-solid fa-truck-fast"></i> شحن سريع ومجاني للطلبات فوق 1,000 ج.م لكافة محافظات مصر</span>
+        <span class="announcement-item"><i class="fa-solid fa-hand-holding-dollar"></i> الدفع عند الاستلام (COD) مع حق معاينة الطرد قبل الدفع</span>
+        <span class="announcement-item"><i class="fa-solid fa-wallet"></i> متاح الدفع عبر فودافون كاش وإنستاباي (InstaPay)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Header -->
+  <header class="main-header glass">
+    <div class="container">
+      <div class="header-inner">
+        
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-btn action-btn" id="mobile-menu-toggle" onclick="openMobileDrawer()" aria-label="فتح القائمة الرئيسية" title="القائمة الرئيسية">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Logo -->
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-gem"></i>
+          </div>
+          <span>أفُـــق</span>
+        </a>
+
+        <!-- Search Bar with Live Suggestions -->
+        <div class="search-container">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="ابحث عن عطور ملكية، دهن عود، مسك، خلطات خاصة..." autocomplete="off" />
+          </div>
+          <div class="search-results-dropdown" id="search-dropdown"></div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <!-- Currency Display -->
+          <div class="currency-tag" title="العملة الرسمية: الجنيه المصري">
+            <span style="font-weight: 800; font-size: 0.85rem; color: var(--primary);">ج.م (EGP)</span>
+          </div>
+
+          <!-- Order Tracking Button -->
+          <button class="action-btn" id="track-order-btn" title="تتبع طلبك">
+            <i class="fa-solid fa-truck-ramp-box"></i>
+          </button>
+
+          <!-- Theme Switcher -->
+          <button class="action-btn" id="theme-toggle-btn" title="تبديل المظهر">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Wishlist -->
+          <button class="action-btn" id="wishlist-btn" title="المفضلة">
+            <i class="fa-regular fa-heart"></i>
+            <span class="action-badge" id="wishlist-count">0</span>
+          </button>
+
+          <!-- Side Cart Drawer Toggle -->
+          <button class="action-btn" id="cart-toggle-btn" title="سلة التسوق">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="action-badge" id="cart-count">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="nav-bar">
+      <div class="container">
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link active">الرئيسية</a></li>
+          <li><a href="#categories" class="nav-link">الأقسام العطرية</a></li>
+          <li><a href="#mens-collection" class="nav-link">عطور الرجال</a></li>
+          <li><a href="#womens-collection" class="nav-link">عطور النساء</a></li>
+          <li><a href="#offers" class="nav-link">العروض الحصرية</a></li>
+          <li><a href="#products" class="nav-link">المجموعة المختارة</a></li>
+          <li><a href="#deal" class="nav-link">عطر الأسبوع</a></li>
+          <li><a href="#reviews" class="nav-link">تجارب العملاء</a></li>
+          <li><a href="admin.html" class="nav-link" style="color: var(--primary);"><i class="fa-solid fa-shield-halved"></i> الإدارة</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation Drawer & Overlay -->
+  <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+  <div class="mobile-drawer" id="mobile-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية">
+    <div class="mobile-drawer-header">
+      <div class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-gem"></i></div>
+        <span>أفُـــق</span>
+      </div>
+      <button class="close-btn" id="close-mobile-drawer" aria-label="إغلاق القائمة"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-drawer-body">
+      <ul class="mobile-drawer-links">
+        <li><a href="#hero" class="mobile-drawer-link active" onclick="closeMobileDrawer()"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
+        <li><a href="#categories" class="mobile-drawer-link" onclick="closeMobileDrawer()"><i class="fa-solid fa-gem"></i> الأقسام العطرية</a></li>
+        <li><a href="#mens-collection" class="mobile-drawer-link" onclick="closeMobileDrawer()"><i class="fa-solid fa-mars"></i> عطور الرجال</a></li>
+        <li><a href="#womens-collection" class="mobile-drawer-link" onclick="closeMobileDrawer()"><i class="fa-solid fa-venus"></i> عطور النساء</a></li>
+        <li><a href="#offers" class="mobile-drawer-link" onclick="closeMobileDrawer()"><i class="fa-solid fa-tags"></i> العروض والتخفيضات</a></li>
+        <li><a href="#products" class="mobile-drawer-link" onclick="closeMobileDrawer()"><i class="fa-solid fa-spray-can-sparkles"></i> جميع المنتجات</a></li>
+        <li><a href="#deal" class="mobile-drawer-link" onclick="closeMobileDrawer()"><i class="fa-solid fa-crown"></i> عطر الأسبوع المختار</a></li>
+        <li><a href="#reviews" class="mobile-drawer-link" onclick="closeMobileDrawer()"><i class="fa-solid fa-comments"></i> تجارب العملاء</a></li>
+        <li><a href="#" onclick="openWishlistModal(); closeMobileDrawer(); return false;" class="mobile-drawer-link"><i class="fa-regular fa-heart"></i> قائمة المفضلة</a></li>
+        <li><a href="#" onclick="openTrackModal(); closeMobileDrawer(); return false;" class="mobile-drawer-link"><i class="fa-solid fa-truck-ramp-box"></i> تتبع شحنتك</a></li>
+        <li><a href="admin.html" class="mobile-drawer-link" style="color: var(--primary);"><i class="fa-solid fa-shield-halved"></i> لوحة الإدارة</a></li>
+      </ul>
+      <div class="mobile-drawer-footer">
+        <a href="https://wa.me/201000000000" target="_blank" rel="noopener noreferrer" class="whatsapp-drawer-btn" id="drawer-whatsapp-btn">
+          <i class="fa-brands fa-whatsapp"></i> تواصل معنا عبر واتساب
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main>
+    <!-- Hero Carousel Slider Section -->
+    <section id="hero" class="hero-slider-section" aria-roledescription="carousel" aria-label="أحدث حملات دار أفق للعطور">
+      <div class="slider-container" id="hero-slider">
+        
+        <!-- Slide 1: Royal Oud & Orchid -->
+        <div class="slider-slide active" data-slide="0">
+          <div class="slide-bg-wrapper">
+            <picture>
+              <source srcset="assets/images/hero_perfume_banner.webp" type="image/webp">
+              <img src="assets/images/hero_perfume_banner.png" alt="تشكيلة الفخامة الملكية - دار أفق" class="slide-bg" width="1376" height="768" fetchpriority="high" />
+            </picture>
+            <div class="slide-overlay"></div>
+          </div>
+          <div class="container slide-content-container">
+            <div class="slide-content">
+              <div class="hero-tag">
+                <i class="fa-solid fa-crown"></i> دار أفق للعطور الفاخرة • إصدار مصر 2026
+              </div>
+              <h1 class="hero-title">فخامة العبير الشرقي وسحر النيش الملكي</h1>
+              <p class="hero-desc">استكشف مجموعتنا الاستثنائية من العطور النادرة، وأدهان العود المعتقة، وخلطاتنا الخاصة المصممة لأصحاب الذوق الرفيع في مصر. تسوق بأمان تام مع الدفع نقداً عند استلام شحنتك حتى باب بيتك.</p>
+              <div class="hero-btns">
+                <a href="#products" class="btn-primary">
+                  <span>تصفح المجموعة</span>
+                  <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <a href="#deal" class="btn-outline">
+                  <i class="fa-solid fa-gem"></i>
+                  <span>عطر الأسبوع المختار</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Men's Noir Amber -->
+        <div class="slider-slide" data-slide="1">
+          <div class="slide-bg-wrapper">
+            <picture>
+              <source srcset="assets/images/perfume_noir_amber.webp" type="image/webp">
+              <img src="assets/images/perfume_noir_amber.png" alt="عطر نوار أمبر المركز للرجال" class="slide-bg" loading="lazy" width="1024" height="1024" />
+            </picture>
+            <div class="slide-overlay"></div>
+          </div>
+          <div class="container slide-content-container">
+            <div class="slide-content">
+              <div class="hero-tag" style="background: rgba(197, 160, 89, 0.2); color: var(--primary);">
+                <i class="fa-solid fa-mars"></i> تشكيلة الرجال • هيبة وثبات ممتد
+              </div>
+              <h1 class="hero-title">نوار أمبر المركز | حضور رجالي وقور</h1>
+              <p class="hero-desc">تناغم أخشاب الأرز العميقة والجلد المدبوغ الفاخر مع نفحات الهيل والبرغموت. عطر يفيض بالثقة والجاذبية ويمنحك بصمة عطرية تدوم لأكثر من 24 ساعة.</p>
+              <div class="hero-btns">
+                <button class="btn-primary" onclick="filterAndScrollToCategory('men')">
+                  <span>اكتشف عطور الرجال</span>
+                  <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="btn-outline" onclick="quickViewProduct('p2222222-2222-2222-2222-222222222222')">
+                  <i class="fa-solid fa-eye"></i>
+                  <span>تفاصيل العطر</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Women's Rose Silk -->
+        <div class="slider-slide" data-slide="2">
+          <div class="slide-bg-wrapper">
+            <picture>
+              <source srcset="assets/images/perfume_rose_silk.webp" type="image/webp">
+              <img src="assets/images/perfume_rose_silk.png" alt="عطر بتلات الورد والحرير للنساء" class="slide-bg" loading="lazy" width="1024" height="1024" />
+            </picture>
+            <div class="slide-overlay"></div>
+          </div>
+          <div class="container slide-content-container">
+            <div class="slide-content">
+              <div class="hero-tag" style="background: rgba(244, 63, 94, 0.2); color: #f43f5e; border-color: rgba(244, 63, 94, 0.4);">
+                <i class="fa-solid fa-venus"></i> تشكيلة النساء • أنوثة آسرة ونعومة الحرير
+              </div>
+              <h1 class="hero-title">بتلات الورد والحرير | رقة لا تقاوم</h1>
+              <p class="hero-desc">إشراقة أنثوية ناعمة تحاكي لمس الحرير الطبيعي؛ تمازج فاخر بين ورد دي ماي والليتشي المنعش ومسك الحرير الأبيض لإطلالة ساحرة في كل الأوقات.</p>
+              <div class="hero-btns">
+                <button class="btn-primary" onclick="filterAndScrollToCategory('women')">
+                  <span>اكتشف عطور النساء</span>
+                  <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="btn-outline" onclick="quickViewProduct('p3333333-3333-3333-3333-333333333333')">
+                  <i class="fa-solid fa-eye"></i>
+                  <span>تفاصيل العطر</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Slider Arrows -->
+      <button class="slider-arrow prev" id="slider-prev-btn" aria-label="الشريحة السابقة" title="السابق">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+      <button class="slider-arrow next" id="slider-next-btn" aria-label="الشريحة التالية" title="التالي">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <!-- Slider Dots Pagination -->
+      <div class="slider-dots" id="slider-dots-container" role="tablist" aria-label="مؤشرات الشرائح">
+        <button class="slider-dot active" data-index="0" role="tab" aria-selected="true" aria-label="الشريحة 1"></button>
+        <button class="slider-dot" data-index="1" role="tab" aria-selected="false" aria-label="الشريحة 2"></button>
+        <button class="slider-dot" data-index="2" role="tab" aria-selected="false" aria-label="الشريحة 3"></button>
+      </div>
+    </section>
+
+    <!-- Features Grid (Trust Highlights) -->
+    <section class="container" style="padding-top: 2rem; padding-bottom: 1rem;">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
+          <div class="feature-info">
+            <h4>عطور أصلية 100%</h4>
+            <p>مكونات نقية وتعتيق طبيعي فاخر</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <div class="feature-info">
+            <h4>دفع عند الاستلام (COD)</h4>
+            <p>عاين طلبك وادفع نقداً لمندوب الشحن</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="feature-info">
+            <h4>شحن سريع ومجاني</h4>
+            <p>لجميع الطلبات فوق 1,000 ج.م بمصر</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+          <div class="feature-info">
+            <h4>وسائل دفع مرنة</h4>
+            <p>كاش، فودافون كاش، وإنستاباي</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">الأقسام والتشكيلات العطرية</h2>
+            <p class="section-subtitle">انتقاء استثنائي مصنف وفق الطابع العطري ونوع الاستخدام</p>
+          </div>
+        </div>
+        
+        <div class="categories-grid">
+          <div class="category-card active" data-category="all">
+            <div class="category-icon"><i class="fa-solid fa-gem"></i></div>
+            <h3 class="category-title">جميع الروائع</h3>
+            <span class="category-count">8 إبداعات</span>
+          </div>
+          <div class="category-card" data-category="men">
+            <div class="category-icon"><i class="fa-solid fa-mars"></i></div>
+            <h3 class="category-title">عطور رجالية</h3>
+            <span class="category-count">أخشاب وجلود</span>
+          </div>
+          <div class="category-card" data-category="women">
+            <div class="category-icon"><i class="fa-solid fa-venus"></i></div>
+            <h3 class="category-title">عطور نسائية</h3>
+            <span class="category-count">زهور وباودر</span>
+          </div>
+          <div class="category-card" data-category="unisex">
+            <div class="category-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h3 class="category-title">عطور للجنسين</h3>
+            <span class="category-count">توليفات ملكية</span>
+          </div>
+          <div class="category-card" data-category="oud-oriental">
+            <div class="category-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div>
+            <h3 class="category-title">دهن عود وشرقيات</h3>
+            <span class="category-count">زيوت نقية معتقة</span>
+          </div>
+          <div class="category-card" data-category="private-blends">
+            <div class="category-icon"><i class="fa-solid fa-feather-pointed"></i></div>
+            <h3 class="category-title">خلطات أفق والنيش</h3>
+            <span class="category-count">إصدارات خاصة</span>
+          </div>
+          <div class="category-card" data-category="gift-sets">
+            <div class="category-icon"><i class="fa-solid fa-gift"></i></div>
+            <h3 class="category-title">أطقم هدايا وملحقات</h3>
+            <span class="category-count">صناديق ومباخر</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Men's Collection Section -->
+    <section id="mens-collection" class="collection-feature-section men-section">
+      <div class="container">
+        <div class="collection-feature-grid">
+          <div class="collection-visual">
+            <picture>
+              <source srcset="assets/images/perfume_noir_amber.webp" type="image/webp">
+              <img src="assets/images/perfume_noir_amber.png" alt="المجموعة العطرية للرجال - دار أفق" loading="lazy" width="1024" height="1024" />
+            </picture>
+            <div class="collection-visual-badge">
+              <i class="fa-solid fa-mars"></i> تشكيلة الرجال الفاخرة
+            </div>
+          </div>
+          <div class="collection-info">
+            <div class="hero-tag" style="background: rgba(197, 160, 89, 0.15); color: var(--primary);">
+              <i class="fa-solid fa-crown"></i> الفخامة والوقار الشرقي
+            </div>
+            <h2 class="collection-title">عطور تمنحك حضوراً مهيباً لا يُنسى</h2>
+            <p class="collection-desc">
+              صُممت تشكيلة العطور الرجالية في دار أفق لتلائم طابع الرجل الشرقي؛ توليفات تعتمد على أخشاب الأرز العميقة، والجلد المدبوغ الفاخر، والتوابل الدافئة بتركيزات نقية وثبات استثنائي يتحدى حرارة الأجواء طوال اليوم.
+            </p>
+            <div class="collection-highlights">
+              <div class="highlight-item"><i class="fa-solid fa-circle-check"></i> فوحان وقور وثبات ممتد يتجاوز 24 ساعة</div>
+              <div class="highlight-item"><i class="fa-solid fa-circle-check"></i> زجاجات ثقيلة سوداء مطفية بلمسات ذهبية أنيقة</div>
+              <div class="highlight-item"><i class="fa-solid fa-circle-check"></i> تركيبة مثالية للاجتماعات الرسمية والمناسبات الراقية</div>
+            </div>
+            <div class="collection-actions">
+              <button class="btn-primary" onclick="filterAndScrollToCategory('men')">
+                <span>تصفح عطور الرجال بالمتجر</span>
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Women's Collection Section -->
+    <section id="womens-collection" class="collection-feature-section women-section">
+      <div class="container">
+        <div class="collection-feature-grid reverse">
+          <div class="collection-visual">
+            <picture>
+              <source srcset="assets/images/perfume_rose_silk.webp" type="image/webp">
+              <img src="assets/images/perfume_rose_silk.png" alt="المجموعة العطرية للنساء - دار أفق" loading="lazy" width="1024" height="1024" />
+            </picture>
+            <div class="collection-visual-badge" style="background: rgba(225, 29, 72, 0.15); color: #f43f5e; border-color: rgba(225, 29, 72, 0.3);">
+              <i class="fa-solid fa-venus"></i> تشكيلة النساء الراقية
+            </div>
+          </div>
+          <div class="collection-info">
+            <div class="hero-tag" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e; border-color: rgba(244, 63, 94, 0.3);">
+              <i class="fa-solid fa-heart"></i> الرقة وسحر الأنوثة
+            </div>
+            <h2 class="collection-title">إشراقة باودرية ناعمة تحاكي ملمس الحرير</h2>
+            <p class="collection-desc">
+              توليفات نسائية حصرية تنسج تفاصيل الأنوثة الراقية؛ يمتزج فيها عبير ورد دي ماي الفاخر مع الليتشي المنعش ومسك الحرير الأبيض، لتمنحك هالة مهدئة من السحر والجاذبية طوال اليوم.
+            </p>
+            <div class="collection-highlights">
+              <div class="highlight-item"><i class="fa-solid fa-circle-check"></i> نوتات زهرية وباودرية مهدئة للبشرة والملابس</div>
+              <div class="highlight-item"><i class="fa-solid fa-circle-check"></i> تغليف إهدائي فاخر بصناديق مخملية ملكية</div>
+              <div class="highlight-item"><i class="fa-solid fa-circle-check"></i> مناسبة للاستخدام اليومي والمناسبات الخاصة</div>
+            </div>
+            <div class="collection-actions">
+              <button class="btn-primary" onclick="filterAndScrollToCategory('women')">
+                <span>تصفح عطور النساء بالمتجر</span>
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promotional Offers Section -->
+    <section id="offers" class="section offers-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="hero-tag" style="background: rgba(16, 185, 129, 0.15); color: var(--success); border-color: rgba(16, 185, 129, 0.3);">
+              <i class="fa-solid fa-tags"></i> تخفيضات حقيقية موثقة
+            </div>
+            <h2 class="section-title">العروض والتخفيضات الحصرية المتاحة</h2>
+            <p class="section-subtitle">أسعار مخفضة محسوبة بدقة على عطورنا المختارة بدون تلاعب أو إلحاح زائف</p>
+          </div>
+        </div>
+        <div class="offers-grid" id="offers-grid">
+          <!-- Rendered dynamically by script.js from real PRODUCTS with discounts -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Catalog Section -->
+    <section id="products" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">المجموعة العطرية المختارة</h2>
+            <p class="section-subtitle">عطور أصلية بتركيزات عالية وثبات استثنائي تلائم الأجواء في مصر</p>
+          </div>
+        </div>
+
+        <!-- Catalog Controls -->
+        <div class="catalog-controls">
+          <div class="filter-pills" id="filter-pills">
+            <button class="pill-btn active" data-filter="all">الكل</button>
+            <button class="pill-btn" data-filter="men">رجالي</button>
+            <button class="pill-btn" data-filter="women">نسائي</button>
+            <button class="pill-btn" data-filter="unisex">للجنسين</button>
+            <button class="pill-btn" data-filter="oud-oriental">دهن عود</button>
+            <button class="pill-btn" data-filter="private-blends">خلطات خاصة</button>
+            <button class="pill-btn" data-filter="gift-sets">أطقم هدايا</button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <label for="sort-select" style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">ترتيب حسب:</label>
+            <select id="sort-select" class="sort-select">
+              <option value="featured">المقترحة لك</option>
+              <option value="price-low">السعر: من الأقل للأعلى</option>
+              <option value="price-high">السعر: من الأعلى للأقل</option>
+              <option value="rating">الأعلى تقييماً</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid Output -->
+        <div class="products-grid" id="products-grid"></div>
+      </div>
+    </section>
+
+    <!-- Special Deal / Featured Fragrance Section -->
+    <section id="deal" class="container">
+      <div class="deal-banner">
+        <div class="deal-content">
+          <div class="hero-tag" style="background: rgba(197, 160, 89, 0.18); color: var(--primary); border-color: var(--primary-border);">
+            <i class="fa-solid fa-crown"></i> عطر الأسبوع المختار • دفعة مرقمة محدودة
+          </div>
+          <h3>عطر الأوركيد والعود الملكي (100 مل)</h3>
+          <p class="deal-desc">توليفة نادرة تمزج بين رحيق زهرة الأوركيد البرية وخلاصة العود الكمبودي المعتق، مع لمسات مخملية من الورد البلغاري والعنبر الدافئ لحضور وقور يدوم لأكثر من 24 ساعة.</p>
+          
+          <div class="fragrance-pyramid-pills" style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+            <span style="font-size: 0.8rem; background: var(--bg-card); padding: 0.35rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); color: var(--text-muted);"><i class="fa-solid fa-sparkles" style="color: var(--primary);"></i> الافتتاحية: أوركيد بري وبخور</span>
+            <span style="font-size: 0.8rem; background: var(--bg-card); padding: 0.35rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); color: var(--text-muted);"><i class="fa-solid fa-heart" style="color: var(--accent);"></i> القلب: ورد بلغاري وتوابل</span>
+            <span style="font-size: 0.8rem; background: var(--bg-card); padding: 0.35rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); color: var(--text-muted);"><i class="fa-solid fa-tree" style="color: var(--primary);"></i> القاعدة: عود كمبودي وعنبر دافئ</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem;">
+            <div style="font-size: 1.5rem; font-weight: 900; color: var(--primary);">1,450 ج.م</div>
+            <div style="font-size: 1.1rem; color: var(--text-muted); text-decoration: line-through;">2,100 ج.م</div>
+            <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); font-weight: 800; font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 999px;">وفر 650 ج.م</span>
+          </div>
+
+          <button class="btn-primary" onclick="quickViewProduct('p1111111-1111-1111-1111-111111111111')">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>طلب العطر الآن (الدفع عند الاستلام)</span>
+          </button>
+        </div>
+
+        <div class="deal-image">
+          <picture>
+            <source srcset="assets/images/perfume_royal_oud.webp" type="image/webp">
+            <img src="assets/images/perfume_royal_oud.png" alt="عطر الأسبوع المختار - عطر الأوركيد والعود الملكي" loading="lazy" width="1024" height="1024" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.4);" />
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Reviews & Authentic Experiences -->
+    <section id="reviews" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">تجارب عملاء دار أفق في مصر</h2>
+            <p class="section-subtitle">انطباعات موثقة من عشاق العطور الفاخرة بعد المعاينة والاستلام</p>
+          </div>
+        </div>
+
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="review-header">
+              <div class="avatar">م.ع</div>
+              <div class="reviewer-info">
+                <h5>محمود عبدالفتاح (القاهرة)</h5>
+                <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> تجربة استلام موثقة</span>
+              </div>
+            </div>
+            <div class="review-stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="review-text">"عطر رويال عود فاق التوقعات.. الفوحان ملأ المكان وثباته على القماش استمر ليومين كاملين. مندوب الشحن كان قمة في الذوق وانتظر حتى عاينت الطرد المغلف قبل دفع المبلغ نقداً."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-header">
+              <div class="avatar">ن.ح</div>
+              <div class="reviewer-info">
+                <h5>نورهان حسن (الإسكندرية)</h5>
+                <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> تجربة استلام موثقة</span>
+              </div>
+            </div>
+            <div class="review-stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="review-text">"عطر بتلات الورد والحرير غاية في الأنوثة والنعومة، تغليف الصندوق الملكي فخم جداً ومناسب كهدية راقية. وصلني خلال 48 ساعة فقط في سموحة."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-header">
+              <div class="avatar">ط.م</div>
+              <div class="reviewer-info">
+                <h5>طارق منصور (الجيزة)</h5>
+                <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> تجربة استلام موثقة</span>
+              </div>
+            </div>
+            <div class="review-stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="review-text">"دهن العود السيوفي المعتق أصلي ونقي تماماً بنكهة ترابية بخورية نادرة. خدمة العملاء أكدوا معي العنوان هاتفياً والتعامل محترف وموثوق للغاية."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Slide Cart Drawer -->
+  <div class="cart-drawer-overlay" id="cart-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3><i class="fa-solid fa-bag-shopping" style="color: var(--primary);"></i> سلة التسوق</h3>
+        <button class="close-btn" id="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="free-shipping-bar" id="shipping-progress">
+        أضف منتجات بقيمة <span id="remaining-for-free-shipping">1,000 ج.م</span> للحصول على شحن مجاني!
+      </div>
+
+      <div class="cart-items" id="cart-items-container">
+        <!-- Cart Items Injected Dynamically -->
+      </div>
+
+      <div class="cart-footer">
+        <div class="coupon-box">
+          <input type="text" id="coupon-input" placeholder="كود الخصم (مثال: OFOQ10 أو EGYPT20)" />
+          <button id="apply-coupon-btn">تطبيق</button>
+        </div>
+
+        <div class="cart-summary-row">
+          <span>المجموع الفرعي:</span>
+          <span id="cart-subtotal">0 ج.م</span>
+        </div>
+        <div class="cart-summary-row">
+          <span>الخصم:</span>
+          <span id="cart-discount" style="color: var(--accent);">-0 ج.م</span>
+        </div>
+        <div class="cart-summary-row">
+          <span>الشحن التقديري (مصر):</span>
+          <span id="cart-shipping-fee">45 ج.م</span>
+        </div>
+        <div class="cart-summary-row total">
+          <span>الإجمالي النهائي (عند الاستلام):</span>
+          <span id="cart-total" style="color: var(--primary);">0 ج.م</span>
+        </div>
+
+        <button class="btn-primary checkout-btn" id="open-checkout-btn">
+          <i class="fa-solid fa-truck"></i>
+          <span>إتمام الطلب (الدفع عند الاستلام)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick View Modal -->
+  <div class="modal-backdrop" id="quick-view-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="close-quick-view"><i class="fa-solid fa-xmark"></i></button>
+      <div class="quick-view-grid" id="quick-view-content"></div>
+    </div>
+  </div>
+
+  <!-- Wishlist Modal -->
+  <div class="modal-backdrop" id="wishlist-modal">
+    <div class="modal-box" style="max-width: 640px;">
+      <button class="modal-close" id="close-wishlist-modal"><i class="fa-solid fa-xmark"></i></button>
+      <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-heart" style="color: var(--danger);"></i> قائمتي المفضلة
+      </h3>
+      <div id="wishlist-items-container" style="max-height: 420px; overflow-y: auto;"></div>
+    </div>
+  </div>
+
+  <!-- Order Tracking Modal -->
+  <div class="modal-backdrop" id="track-order-modal">
+    <div class="modal-box" style="max-width: 500px;">
+      <button class="modal-close" id="close-track-order-modal"><i class="fa-solid fa-xmark"></i></button>
+      <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-truck-fast" style="color: var(--primary);"></i> تتبع شحنتك
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">
+        أدخل رقم الطلب المسجل وهاتفك المحمول لمعرفة حالة الشحن الحالية.
+      </p>
+
+      <form onsubmit="handleTrackOrderSubmit(event)">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem;">رقم الطلب</label>
+          <input type="text" id="track-order-number" class="form-control" style="width: 100%; padding: 0.75rem; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);" placeholder="مثال: OFQ-2610-8491" required />
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem;">رقم الهاتف المصري</label>
+          <input type="tel" id="track-order-phone" class="form-control" style="width: 100%; padding: 0.75rem; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);" placeholder="010XXXXXXXX" pattern="^01[0125][0-9]{8}$" required />
+        </div>
+        <button type="submit" id="track-submit-btn" class="btn-primary" style="width: 100%; justify-content: center;">
+          <i class="fa-solid fa-magnifying-glass"></i> استعلام عن الطلب
+        </button>
+      </form>
+
+      <div id="track-result-container" style="margin-top: 1.5rem; display: none;"></div>
+    </div>
+  </div>
+
+  <!-- Checkout Process Modal (Egypt Cash on Delivery) -->
+  <div class="modal-backdrop" id="checkout-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="close-checkout-modal"><i class="fa-solid fa-xmark"></i></button>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem;">
+        <i class="fa-solid fa-truck-fast" style="color: var(--primary);"></i> تأكيد طلب الشحن (الدفع عند الاستلام)
+      </h2>
+      
+      <!-- Checkout Error Banner -->
+      <div id="checkout-error-banner" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: var(--danger); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem; margin-bottom: 1rem;">
+        <i class="fa-solid fa-triangle-exclamation"></i> <span id="checkout-error-text"></span>
+      </div>
+
+      <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)">
+        <div class="form-group">
+          <label><i class="fa-solid fa-user"></i> الاسم الكامل</label>
+          <input type="text" id="checkout-name" class="form-control" placeholder="أحمد محمد علي" required />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-phone"></i> رقم الهاتف المحمول (مصر - 11 رقماً)</label>
+          <input type="tel" id="checkout-phone" class="form-control" placeholder="010XXXXXXXX" pattern="^01[0125][0-9]{8}$" title="يرجى إدخال رقم مصري صحيح مكون من 11 رقماً يبدأ بـ 010 أو 011 أو 012 أو 015" required />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-map-location-dot"></i> المحافظة</label>
+          <select id="checkout-governorate" class="sort-select" style="width: 100%; padding: 0.75rem;" required onchange="handleGovernorateChange(this.value)">
+            <option value="القاهرة">القاهرة (شحن 45 ج.م)</option>
+            <option value="الجيزة">الجيزة (شحن 45 ج.م)</option>
+            <option value="الإسكندرية">الإسكندرية (شحن 55 ج.م)</option>
+            <option value="القليوبية">القليوبية (شحن 50 ج.م)</option>
+            <option value="الشرقية">الشرقية (شحن 55 ج.م)</option>
+            <option value="الدقهلية">الدقهلية (شحن 55 ج.م)</option>
+            <option value="الغربية">الغربية (شحن 55 ج.م)</option>
+            <option value="المنوفية">المنوفية (شحن 55 ج.م)</option>
+            <option value="كفر الشيخ">كفر الشيخ (شحن 60 ج.م)</option>
+            <option value="البحيرة">البحيرة (شحن 60 ج.م)</option>
+            <option value="دمياط">دمياط (شحن 60 ج.م)</option>
+            <option value="بورسعيد">بورسعيد (شحن 60 ج.م)</option>
+            <option value="الإسماعيلية">الإسماعيلية (شحن 60 ج.م)</option>
+            <option value="السويس">السويس (شحن 60 ج.م)</option>
+            <option value="الفيوم">الفيوم (شحن 65 ج.م)</option>
+            <option value="بني سويف">بني سويف (شحن 65 ج.م)</option>
+            <option value="المنيا">المنيا (شحن 70 ج.م)</option>
+            <option value="أسيوط">أسيوط (شحن 75 ج.م)</option>
+            <option value="سوهاج">سوهاج (شحن 75 ج.م)</option>
+            <option value="قنا">قنا (شحن 80 ج.م)</option>
+            <option value="الأقصر">الأقصر (شحن 80 ج.م)</option>
+            <option value="أسوان">أسوان (شحن 85 ج.م)</option>
+            <option value="البحر الأحمر">البحر الأحمر (شحن 90 ج.م)</option>
+            <option value="جنوب سيناء">جنوب سيناء (شحن 90 ج.م)</option>
+            <option value="مطروح">مطروح (شحن 90 ج.م)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-location-dot"></i> العنوان بالتفصيل (الحي، الشارع، رقم العمارة)</label>
+          <input type="text" id="checkout-address" class="form-control" placeholder="مدينة نصر، الحي السابع، شارع الطيران عمارة 14" required />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-wallet"></i> طريقة الدفع المفضلة</label>
+          <div class="payment-options-grid">
+            <!-- Option 1: COD -->
+            <div class="payment-option-card active" data-method="cod" onclick="selectPaymentMethod('cod')">
+              <input type="radio" name="payment_method_choice" value="cod" checked style="display: none;" />
+              <div class="payment-option-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+              <div class="payment-option-info">
+                <span class="payment-option-title">الدفع عند الاستلام (COD)</span>
+                <span class="payment-option-sub">نقداً لمندوب الشحن بعد المعاينة</span>
+              </div>
+            </div>
+
+            <!-- Option 2: Vodafone Cash -->
+            <div class="payment-option-card" data-method="vodafone_cash" onclick="selectPaymentMethod('vodafone_cash')">
+              <input type="radio" name="payment_method_choice" value="vodafone_cash" style="display: none;" />
+              <div class="payment-option-icon" style="color: #e60000;"><i class="fa-solid fa-mobile-screen-button"></i></div>
+              <div class="payment-option-info">
+                <span class="payment-option-title">فودافون كاش (Vodafone)</span>
+                <span class="payment-option-sub">تحويل للمحفظة مع تأكيد هاتفي</span>
+              </div>
+            </div>
+
+            <!-- Option 3: InstaPay -->
+            <div class="payment-option-card" data-method="instapay" onclick="selectPaymentMethod('instapay')">
+              <input type="radio" name="payment_method_choice" value="instapay" style="display: none;" />
+              <div class="payment-option-icon" style="color: #6366f1;"><i class="fa-solid fa-bolt-lightning"></i></div>
+              <div class="payment-option-info">
+                <span class="payment-option-title">إنستاباي (InstaPay)</span>
+                <span class="payment-option-sub">تحويل لحظي بالشبكة القومية</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Payment Instruction Box -->
+          <div class="payment-details-box" id="payment-details-box">
+            <div style="font-weight: 700; color: var(--primary); margin-bottom: 0.3rem;"><i class="fa-solid fa-circle-info"></i> تعليمات الدفع عند الاستلام:</div>
+            <div>تدفع القيمة نقداً بالجنيه المصري لمندوب شركة الشحن فور وصوله إلى عنوانك وبعد معاينة واستلام الطرد المغلف.</div>
+          </div>
+        </div>
+
+        <button type="submit" id="checkout-submit-btn" class="btn-primary" style="width: 100%; margin-top: 1.5rem; justify-content: center;">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>تأكيد الطلب وشحن المنتجات</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp Contact Button -->
+  <a href="#" class="floating-whatsapp-btn" id="floating-whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="تواصل معنا عبر واتساب" title="تواصل فورياً عبر واتساب مع خدمة عملاء دار أفق">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">تواصل معنا عبر واتساب</span>
+  </a>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav-bar">
+    <a href="#hero" class="mobile-nav-item active">
+      <i class="fa-solid fa-house"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="#categories" class="mobile-nav-item">
+      <i class="fa-solid fa-grid-2"></i>
+      <span>الأقسام</span>
+    </a>
+    <a href="#" class="mobile-nav-item" id="mobile-cart-btn">
+      <i class="fa-solid fa-bag-shopping"></i>
+      <span>السلة</span>
+    </a>
+    <a href="#" class="mobile-nav-item" id="mobile-track-btn">
+      <i class="fa-solid fa-truck-fast"></i>
+      <span>تتبع</span>
+    </a>
+  </nav>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-gem"></i></div>
+            <span>أفُـــق</span>
+          </a>
+          <p>دار أفق للعطور الفاخرة في مصر هي وجهتكم الاستثنائية للحصول على أندر العطور الشرقية والنيش وأدهان العود المعتقة مع خدمة الشحن السريع والدفع نقداً عند الاستلام بعد المعاينة.</p>
+          <div class="trust-badges">
+            <span class="badge-item"><i class="fa-solid fa-certificate"></i> عطور أصلية ومضمونة 100%</span>
+            <span class="badge-item"><i class="fa-solid fa-truck"></i> شحن سريع لكافة محافظات مصر</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">روابط سريعة</h4>
+          <ul class="footer-links">
+            <li><a href="#hero">الرئيسية</a></li>
+            <li><a href="#categories">الأقسام العطرية</a></li>
+            <li><a href="#products">المجموعة المختارة</a></li>
+            <li><a href="#deal">عطر الأسبوع المختار</a></li>
+            <li><a href="#reviews">تجارب العملاء</a></li>
+            <li><a href="admin.html"><i class="fa-solid fa-lock"></i> لوحة تحكم الإدارة</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">خدمة العملاء</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="openTrackModal(); return false;"><i class="fa-solid fa-truck-fast"></i> تتبع شحنتك</a></li>
+            <li><a href="#">سياسة الشحن والتوصيل في مصر</a></li>
+            <li><a href="#">الاستبدال والاسترجاع (14 يوماً)</a></li>
+            <li><a href="#">الأسئلة الشائعة</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">طريقة الدفع المعتمدة</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">نوفر لك الطريقة الأكثر أماناً للتسوق عبر الإنترنت:</p>
+          <div style="background: var(--bg-card); padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.8rem;">
+            <i class="fa-solid fa-hand-holding-dollar" style="font-size: 1.8rem; color: var(--primary);"></i>
+            <div>
+              <div style="font-weight: 800; font-size: 0.9rem;">الدفع عند الاستلام (COD)</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">عاين مشترياتك وادفع نقداً لمندوب الشحن</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 جميع الحقوق محفوظة لمتجر أفق | متجر إلكتروني فاخر - جمهورية مصر العربية</p>
+        <div style="display: flex; gap: 1rem;">
+          <a href="#" style="color: var(--text-muted);"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" style="color: var(--text-muted);"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" style="color: var(--text-muted);"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>

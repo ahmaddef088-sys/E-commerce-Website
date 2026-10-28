@@ -1,0 +1,6 @@
+﻿backup_before_enhancement/
+.env
+.env.*
+!.env.example
+node_modules/
+.vercel/

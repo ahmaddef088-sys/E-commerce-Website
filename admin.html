@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أفق | لوحة التحكم الإدارية - إدارة الطلبات والمبيعات</title>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Custom Stylesheet (Same Design System) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Supabase JS Client (via Official CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    .admin-layout {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .admin-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--border-active);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .admin-container {
+      flex: 1;
+      padding: 2rem 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+    .admin-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .admin-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .admin-card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-main);
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+    }
+    .tab-btn {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-full);
+      background: var(--bg-main);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--primary);
+      color: var(--text-inverse);
+      border-color: var(--primary);
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.9rem;
+    }
+    .admin-table th {
+      background: var(--bg-main);
+      padding: 0.9rem 1rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .admin-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+    .admin-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .status-pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid var(--warning); }
+    .status-confirmed { background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid #3b82f6; }
+    .status-shipped { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid #a855f7; }
+    .status-delivered { background: rgba(16, 185, 129, 0.15); color: var(--accent); border: 1px solid var(--accent); }
+    .status-cancelled { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+    
+    .pay-unpaid { color: var(--danger); font-weight: 700; }
+    .pay-paid { color: var(--accent); font-weight: 700; }
+
+    /* Login Screen Box */
+    .login-container {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+    }
+    .action-btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-main);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .action-btn-sm:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body class="admin-layout">
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="container">
+      <div class="admin-header-inner">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <a href="index.html" class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-gem"></i></div>
+            <span>أفُـــق</span>
+          </a>
+          <span class="admin-badge"><i class="fa-solid fa-shield-halved"></i> لوحة الإدارة</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <a href="index.html" class="action-btn-sm" title="العودة للمتجر الرئيسي">
+            <i class="fa-solid fa-store"></i> المتجر
+          </a>
+          <button id="admin-logout-btn" class="action-btn-sm" style="display: none; color: var(--danger);">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل الخروج
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Section (Visible when not authenticated) -->
+  <section id="login-section" class="login-container">
+    <div class="login-box">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="logo-icon" style="margin: 0 auto 1rem; width: 50px; height: 50px; font-size: 1.4rem;">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">دخول لوحة التحكم</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">أدخل البريد الإلكتروني وكلمة المرور الخاصة بالإدارة</p>
+      </div>
+
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="form-group" style="margin-bottom: 1.2rem;">
+          <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem;">
+            <i class="fa-solid fa-envelope"></i> البريد الإلكتروني للمدير
+          </label>
+          <input type="email" id="admin-email" class="form-control" style="width: 100%; padding: 0.75rem; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);" placeholder="admin@ofoq.eg" required />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem;">
+            <i class="fa-solid fa-key"></i> كلمة المرور
+          </label>
+          <input type="password" id="admin-password" class="form-control" style="width: 100%; padding: 0.75rem; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn-primary" style="width: 100%; justify-content: center;">
+          <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Main Dashboard Content (Hidden until logged in) -->
+  <main id="dashboard-content" class="admin-container" style="display: none;">
+    <div class="container">
+      
+      <!-- Statistics Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-cart-flatbed"></i></div>
+          <div>
+            <div class="stat-val" id="stat-total-orders">0</div>
+            <div class="stat-label">إجمالي الطلبات</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--warning); background: rgba(245, 158, 11, 0.15);"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <div class="stat-val" id="stat-pending-orders">0</div>
+            <div class="stat-label">طلبات قيد المراجعة (COD)</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--accent); background: rgba(16, 185, 129, 0.15);"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <div class="stat-val" id="stat-delivered-orders">0</div>
+            <div class="stat-label">طلبات تم تسليمها بنجاح</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+          <div>
+            <div class="stat-val" id="stat-total-revenue">0 ج.م</div>
+            <div class="stat-label">إجمالي مبيعات الدفع عند الاستلام</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Section -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div class="admin-card-title">
+            <i class="fa-solid fa-box-open" style="color: var(--primary);"></i>
+            <span>إدارة طلبات العملاء (مصر)</span>
+          </div>
+
+          <!-- Order Status Filter Tabs -->
+          <div class="filter-tabs" id="order-filter-tabs">
+            <button class="tab-btn active" data-status="all">الكل</button>
+            <button class="tab-btn" data-status="pending">قيد الانتظار</button>
+            <button class="tab-btn" data-status="confirmed">تم التأكيد</button>
+            <button class="tab-btn" data-status="shipped">تم الشحن</button>
+            <button class="tab-btn" data-status="delivered">تم التسليم</button>
+            <button class="tab-btn" data-status="cancelled">ملغي</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>اسم العميل</th>
+                <th>الهاتف (مصر)</th>
+                <th>المحافظة</th>
+                <th>الإجمالي</th>
+                <th>حالة الدفع</th>
+                <th>حالة الطلب</th>
+                <th>تاريخ الطلب</th>
+                <th>الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              <tr>
+                <td colspan="9" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                  جاري تحميل الطلبات من الخادم...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Products Management Section -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div class="admin-card-title">
+            <i class="fa-solid fa-tags" style="color: var(--primary);"></i>
+            <span>إدارة المنتجات والمخزون</span>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>الصورة</th>
+                <th>اسم المنتج</th>
+                <th>السعر الحالي (EGP)</th>
+                <th>السعر القديم</th>
+                <th>الكمية المتاحة (المخزون)</th>
+                <th>الحالة</th>
+                <th>الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="products-table-body">
+              <tr>
+                <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                  جاري تحميل المنتجات...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Status Update Modal -->
+  <div class="modal-backdrop" id="update-order-modal">
+    <div class="modal-box" style="max-width: 480px;">
+      <button class="modal-close" onclick="closeOrderModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 style="margin-bottom: 1rem; font-size: 1.25rem; font-weight: 800;">
+        <i class="fa-solid fa-pen-to-square" style="color: var(--primary);"></i> تحديث حالة الطلب
+      </h3>
+      <p id="modal-order-number" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;"></p>
+
+      <div class="form-group" style="margin-bottom: 1.2rem;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">حالة الطلب:</label>
+        <select id="modal-order-status" class="sort-select" style="width: 100%;">
+          <option value="pending">قيد الانتظار (جديد)</option>
+          <option value="confirmed">تم التأكيد هاتفياً</option>
+          <option value="processing">جاري التجهيز والتغليف</option>
+          <option value="shipped">تم تسليمه لشركة الشحن</option>
+          <option value="delivered">تم التسليم للعميل</option>
+          <option value="cancelled">ملغي</option>
+          <option value="returned">مرتجع</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">حالة التحصيل المالي (COD):</label>
+        <select id="modal-payment-status" class="sort-select" style="width: 100%;">
+          <option value="unpaid">غير مدفوع (لم يتم التحصيل بعد)</option>
+          <option value="paid">تم تحصيل النقدية من المندوب</option>
+          <option value="refunded">مسترد</option>
+        </select>
+      </div>
+
+      <button id="save-status-btn" class="btn-primary" style="width: 100%; justify-content: center;">
+        حفظ التغييرات
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Admin JavaScript Logic -->
+  <script src="admin.js"></script>
+</body>
+</html>
+
