@@ -355,7 +355,7 @@ async function loadLiveProducts() {
    2. Theme & Timers
    ========================================================================== */
 function initTheme() {
-  const savedTheme = localStorage.getItem('ofoq_theme') || 'dark';
+  const savedTheme = localStorage.getItem('ofoq_theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   updateThemeIcon(savedTheme);
 }
@@ -446,11 +446,15 @@ function renderProducts() {
 
   grid.innerHTML = filtered.map((product, pIdx) => {
     const isWishlisted = wishlist.includes(product.id);
+    const discountPercent = (product.oldPrice && product.oldPrice > product.price)
+      ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+      : null;
+
     return `
-      <div class="product-card">
+      <div class="product-card" onclick="quickViewProduct('${product.id}')">
         <div class="product-image-box">
-          ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-          <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist('${product.id}')" title="إضافة للمفضلة">
+          ${discountPercent ? `<span class="product-badge discount">-${discountPercent}%</span>` : (product.badge ? `<span class="product-badge">${product.badge}</span>` : '')}
+          <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="event.stopPropagation(); toggleWishlist('${product.id}')" title="إضافة للمفضلة">
             <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
           </button>
           <picture>
@@ -458,16 +462,16 @@ function renderProducts() {
             <img src="${product.image}" alt="${product.title}" loading="${pIdx < 2 ? 'eager' : 'lazy'}" width="1024" height="1024" />
           </picture>
           <div class="quick-view-overlay">
-            <button class="btn-quick-view" onclick="quickViewProduct('${product.id}')">
+            <button class="btn-quick-view" onclick="event.stopPropagation(); quickViewProduct('${product.id}')">
               <i class="fa-solid fa-eye"></i> نظرة سريعة وتفاصيل
             </button>
           </div>
         </div>
 
         <div class="product-info">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+          <div class="product-brand-row">
             <span class="product-category">${product.categoryName}</span>
-            ${product.volume ? `<span style="font-size: 0.75rem; color: var(--text-muted); background: var(--bg-card); padding: 0.15rem 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">${product.volume}</span>` : ''}
+            ${product.volume ? `<span class="product-volume-pill">${product.volume}</span>` : ''}
           </div>
           <h3 class="product-title">${product.title}</h3>
           
@@ -482,8 +486,9 @@ function renderProducts() {
               ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
             </div>
 
-            <button class="add-to-cart-btn" onclick="handleCardAddToCart('${product.id}')" title="أضف للسلة أو اختر السعة">
-              <i class="fa-solid fa-plus"></i>
+            <button class="add-to-cart-btn" onclick="event.stopPropagation(); handleCardAddToCart('${product.id}')" title="أضف للسلة">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span class="btn-text">أضف للسلة</span>
             </button>
           </div>
         </div>
@@ -1383,10 +1388,10 @@ function renderOffers() {
     const isWishlisted = wishlist.includes(p.id);
 
     return `
-      <div class="offer-card">
+      <div class="offer-card" onclick="quickViewProduct('${p.id}')">
         <div class="product-image-box">
           <span class="offer-badge"><i class="fa-solid fa-bolt"></i> خصم ${discountPercent}%</span>
-          <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist('${p.id}')" title="إضافة للمفضلة">
+          <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="event.stopPropagation(); toggleWishlist('${p.id}')" title="إضافة للمفضلة">
             <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
           </button>
           <picture>
@@ -1394,13 +1399,13 @@ function renderOffers() {
             <img src="${p.image}" alt="${p.title}" loading="lazy" width="1024" height="1024" />
           </picture>
           <div class="quick-view-overlay">
-            <button class="btn-quick-view" onclick="quickViewProduct('${p.id}')">
+            <button class="btn-quick-view" onclick="event.stopPropagation(); quickViewProduct('${p.id}')">
               <i class="fa-solid fa-eye"></i> تفاصيل العرض
             </button>
           </div>
         </div>
         <div class="product-info">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+          <div class="product-brand-row">
             <span class="product-category">${p.categoryName}</span>
             <span class="offer-savings-tag">وفر ${formatPrice(savings)}</span>
           </div>
@@ -1410,8 +1415,9 @@ function renderOffers() {
               <span class="current-price" style="color: var(--primary); font-size: 1.3rem;">${formatPrice(p.price)}</span>
               <span class="old-price">${formatPrice(p.oldPrice)}</span>
             </div>
-            <button class="add-to-cart-btn" onclick="handleCardAddToCart('${p.id}')" title="اطلب العرض الآن">
+            <button class="add-to-cart-btn" onclick="event.stopPropagation(); handleCardAddToCart('${p.id}')" title="اطلب العرض الآن">
               <i class="fa-solid fa-bag-shopping"></i>
+              <span class="btn-text">اطلب العرض</span>
             </button>
           </div>
         </div>

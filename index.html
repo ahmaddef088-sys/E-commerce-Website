@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="dark">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -259,7 +259,7 @@
     </section>
 
     <!-- Features Grid (Trust Highlights) -->
-    <section class="container" style="padding-top: 2rem; padding-bottom: 1rem;">
+    <section class="container" style="padding-top: 2rem; padding-bottom: 1.5rem;">
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
@@ -272,22 +272,82 @@
           <div class="feature-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
           <div class="feature-info">
             <h4>دفع عند الاستلام (COD)</h4>
-            <p>عاين طلبك وادفع نقداً لمندوب الشحن</p>
+            <p>مع حق المعاينة والتأكد قبل الدفع</p>
           </div>
         </div>
         <div class="feature-card">
           <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
           <div class="feature-info">
-            <h4>شحن سريع ومجاني</h4>
-            <p>لجميع الطلبات فوق 1,000 ج.م بمصر</p>
+            <h4>شحن سريع لكافة المحافظات</h4>
+            <p>توصيل آمن لجميع محافظات مصر</p>
           </div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+          <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
           <div class="feature-info">
-            <h4>وسائل دفع مرنة</h4>
-            <p>كاش، فودافون كاش، وإنستاباي</p>
+            <h4>دعم متواصل عبر واتساب</h4>
+            <p>خدمة عملاء راقية على مدار الساعة</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Circular Category Stories Strip (Qissa Benchmark Style) -->
+    <section class="container category-stories-wrapper" aria-label="الأقسام العطرية السريعة">
+      <div class="category-scroll">
+        <div class="category-circle-item" onclick="filterAndScrollToCategory('men')" role="button" tabindex="0">
+          <div class="cat-img-wrap">
+            <picture>
+              <source srcset="assets/images/perfume_noir_amber.webp" type="image/webp">
+              <img src="assets/images/perfume_noir_amber.png" alt="عطور رجالية" width="84" height="84" loading="lazy" />
+            </picture>
+          </div>
+          <span>عطور رجالية</span>
+        </div>
+        <div class="category-circle-item" onclick="filterAndScrollToCategory('women')" role="button" tabindex="0">
+          <div class="cat-img-wrap">
+            <picture>
+              <source srcset="assets/images/perfume_rose_silk.webp" type="image/webp">
+              <img src="assets/images/perfume_rose_silk.png" alt="عطور نسائية" width="84" height="84" loading="lazy" />
+            </picture>
+          </div>
+          <span>عطور نسائية</span>
+        </div>
+        <div class="category-circle-item" onclick="filterAndScrollToCategory('unisex')" role="button" tabindex="0">
+          <div class="cat-img-wrap">
+            <picture>
+              <source srcset="assets/images/perfume_royal_oud.webp" type="image/webp">
+              <img src="assets/images/perfume_royal_oud.png" alt="عطور للجنسين" width="84" height="84" loading="lazy" />
+            </picture>
+          </div>
+          <span>عطور للجنسين</span>
+        </div>
+        <div class="category-circle-item" onclick="filterAndScrollToCategory('oud-oriental')" role="button" tabindex="0">
+          <div class="cat-img-wrap">
+            <picture>
+              <source srcset="assets/images/dehn_oud_bottle.webp" type="image/webp">
+              <img src="assets/images/dehn_oud_bottle.png" alt="دهن عود وشرقيات" width="84" height="84" loading="lazy" />
+            </picture>
+          </div>
+          <span>دهن عود وشرقيات</span>
+        </div>
+        <div class="category-circle-item" onclick="filterAndScrollToCategory('private-blends')" role="button" tabindex="0">
+          <div class="cat-img-wrap">
+            <picture>
+              <source srcset="assets/images/perfume.webp" type="image/webp">
+              <img src="assets/images/perfume.png" alt="خلطات خاصة والنيش" width="84" height="84" loading="lazy" />
+            </picture>
+          </div>
+          <span>خلطات خاصة والنيش</span>
+        </div>
+        <div class="category-circle-item" onclick="filterAndScrollToCategory('gift-sets')" role="button" tabindex="0">
+          <div class="cat-img-wrap">
+            <picture>
+              <source srcset="assets/images/perfume_gift_set.webp" type="image/webp">
+              <img src="assets/images/perfume_gift_set.png" alt="أطقم هدايا ملكية" width="84" height="84" loading="lazy" />
+            </picture>
+          </div>
+          <span>أطقم هدايا ملكية</span>
         </div>
       </div>
     </section>
@@ -838,24 +898,41 @@
         </div>
 
         <div>
-          <h4 class="footer-title">طريقة الدفع المعتمدة</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">نوفر لك الطريقة الأكثر أماناً للتسوق عبر الإنترنت:</p>
-          <div style="background: var(--bg-card); padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.8rem;">
-            <i class="fa-solid fa-hand-holding-dollar" style="font-size: 1.8rem; color: var(--primary);"></i>
-            <div>
-              <div style="font-weight: 800; font-size: 0.9rem;">الدفع عند الاستلام (COD)</div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">عاين مشترياتك وادفع نقداً لمندوب الشحن</div>
+          <h4 class="footer-title">وسائل الدفع والشحن في مصر</h4>
+          <p style="font-size: 0.88rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 1.1rem; line-height: 1.6;">تسوق بأمان تام مع أحدث وسائل الدفع المعتمدة محلياً:</p>
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.65rem 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.75rem;">
+              <i class="fa-solid fa-hand-holding-dollar" style="font-size: 1.3rem; color: #ffffff;"></i>
+              <div>
+                <div style="font-weight: 800; font-size: 0.88rem; color: #ffffff;">الدفع عند الاستلام (COD)</div>
+                <div style="font-size: 0.74rem; color: rgba(255, 255, 255, 0.85);">عاين مشترياتك وادفع لمندوب الشحن</div>
+              </div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.65rem 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.75rem;">
+              <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.3rem; color: #ffffff;"></i>
+              <div>
+                <div style="font-weight: 800; font-size: 0.88rem; color: #ffffff;">فودافون كاش (Vodafone Cash)</div>
+                <div style="font-size: 0.74rem; color: rgba(255, 255, 255, 0.85);">تحويل آمن ومباشر للمحفظة الذكية</div>
+              </div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.65rem 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.75rem;">
+              <i class="fa-solid fa-bolt-lightning" style="font-size: 1.3rem; color: #ffffff;"></i>
+              <div>
+                <div style="font-weight: 800; font-size: 0.88rem; color: #ffffff;">إنستاباي (InstaPay Egypt)</div>
+                <div style="font-size: 0.74rem; color: rgba(255, 255, 255, 0.85);">تحويل لحظي بالشبكة القومية للمدفوعات</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>© 2026 جميع الحقوق محفوظة لمتجر أفق | متجر إلكتروني فاخر - جمهورية مصر العربية</p>
-        <div style="display: flex; gap: 1rem;">
-          <a href="#" style="color: var(--text-muted);"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" style="color: var(--text-muted);"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" style="color: var(--text-muted);"><i class="fa-brands fa-tiktok"></i></a>
+        <p>© 2026 جميع الحقوق محفوظة لدار أفق للعطور الفاخرة | بوتيك العطور الفاخرة - جمهورية مصر العربية</p>
+        <div class="footer-social-links">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
         </div>
       </div>
     </div>
